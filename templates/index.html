@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minecraft Bot</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<main class="container">
+
+    <header class="header">
+        <div class="logo">
+            MC
+        </div>
+
+        <div>
+            <h1>Minecraft Bot</h1>
+            <p>إعداد وتشغيل حساب Minecraft</p>
+        </div>
+    </header>
+
+
+    <div class="steps">
+
+        <div class="step active" data-step="1">
+            <span>1</span>
+            <div>
+                <b>السيرفر</b>
+                <small>IP و Port</small>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step" data-step="2">
+            <span>2</span>
+            <div>
+                <b>الحساب</b>
+                <small>إعدادات الدخول</small>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step" data-step="3">
+            <span>3</span>
+            <div>
+                <b>التأكيد</b>
+                <small>معلومات السيرفر</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STEP 1 -->
+
+    <section class="page active" id="page1">
+
+        <div class="title">
+            <h2>أدخل بيانات السيرفر</h2>
+            <p>اكتب عنوان السيرفر والمنفذ للمتابعة</p>
+        </div>
+
+        <label>IP / Domain</label>
+
+        <input
+            id="host"
+            type="text"
+            placeholder="play.example.com"
+            autocomplete="off"
+        >
+
+        <label>Port</label>
+
+        <input
+            id="port"
+            type="number"
+            value="25565"
+            min="1"
+            max="65535"
+        >
+
+        <button class="primary" onclick="goStep2()">
+            التالي
+            <span>←</span>
+        </button>
+
+    </section>
+
+
+    <!-- STEP 2 -->
+
+    <section class="page" id="page2">
+
+        <div class="title">
+            <h2>إعداد الحساب</h2>
+            <p>حدد معلومات الحساب الذي تريد تشغيله</p>
+        </div>
+
+        <label>اسم الحساب</label>
+
+        <input
+            id="username"
+            type="text"
+            placeholder="MyBot"
+            maxlength="16"
+        >
+
+        <label>إصدار Minecraft</label>
+
+        <select id="version">
+
+            <option value="auto">
+                Auto Detect
+            </option>
+
+            <option value="1.21">
+                1.21
+            </option>
+
+            <option value="1.21.1">
+                1.21.1
+            </option>
+
+            <option value="1.21.2">
+                1.21.2
+            </option>
+
+            <option value="1.21.3">
+                1.21.3
+            </option>
+
+            <option value="1.21.4">
+                1.21.4
+            </option>
+
+            <option value="1.21.5">
+                1.21.5
+            </option>
+
+            <option value="1.21.6">
+                1.21.6
+            </option>
+
+            <option value="1.21.7">
+                1.21.7
+            </option>
+
+            <option value="1.21.8">
+                1.21.8
+            </option>
+
+            <option value="1.21.9">
+                1.21.9
+            </option>
+
+            <option value="1.21.10">
+                1.21.10
+            </option>
+
+            <option value="1.21.11">
+                1.21.11
+            </option>
+
+            <option value="latest">
+                Latest
+            </option>
+
+        </select>
+
+        <label>Command عند الدخول <span>اختياري</span></label>
+
+        <input
+            id="command"
+            type="text"
+            placeholder="/login password"
+        >
+
+        <label>رسالة عند الدخول <span>اختياري</span></label>
+
+        <input
+            id="message"
+            type="text"
+            placeholder="Hello everyone!"
+        >
+
+        <div class="buttons">
+
+            <button class="secondary" onclick="showPage(1)">
+                رجوع
+            </button>
+
+            <button class="primary" onclick="checkServer()">
+                فحص السيرفر
+                <span>←</span>
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- STEP 3 -->
+
+    <section class="page" id="page3">
+
+        <div class="title">
+            <h2>تأكيد الدخول</h2>
+            <p>راجع معلومات السيرفر قبل تشغيل الحساب</p>
+        </div>
+
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>جاري البحث عن السيرفر...</p>
+        </div>
+
+
+        <div id="serverInfo" class="server-card hidden">
+
+            <div class="server-top">
+
+                <img
+                    id="serverIcon"
+                    src=""
+                    class="server-icon"
+                    alt="Server Icon"
+                >
+
+                <div>
+                    <h3 id="serverStatus">
+                        Online
+                    </h3>
+
+                    <p id="serverAddress">
+                        -
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="motd" id="motd">
+                -
+            </div>
+
+
+            <div class="stats">
+
+                <div>
+                    <span>Players</span>
+                    <strong id="players">-</strong>
+                </div>
+
+                <div>
+                    <span>Version</span>
+                    <strong id="serverVersion">-</strong>
+                </div>
+
+                <div>
+                    <span>Ping</span>
+                    <strong id="ping">-</strong>
+                </div>
+
+            </div>
+
+
+            <div class="account">
+
+                <div>
+                    <span>الحساب</span>
+                    <strong id="accountName">-</strong>
+                </div>
+
+                <div>
+                    <span>الإصدار</span>
+                    <strong id="accountVersion">-</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="errorBox" class="error hidden"></div>
+
+
+        <div class="buttons">
+
+            <button class="secondary" onclick="showPage(2)">
+                رجوع
+            </button>
+
+            <button
+                id="connectButton"
+                class="primary"
+                onclick="connectBot()"
+                disabled
+            >
+                موافق ودخول
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
