@@ -1,0 +1,15 @@
+{
+  "name": "minecraft-web-bot",
+  "version": "1.0.0",
+  "description": "Minecraft Bot Joiner Web Interface Single Folder",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mc-server-status": "^1.0.0",
+    "mineflayer": "^4.20.1",
+    "ws": "^8.16.0"
+  }
+}
