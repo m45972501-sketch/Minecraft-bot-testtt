@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071329">
+  <title>Razenbots — Minecraft Bot Console</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/script.js"></script>
+</head>
+<body>
+  <div class="glow glow-a"></div><div class="glow glow-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">R</span><span>RAZEN<span class="blue">BOTS</span><small>MINECRAFT BOT CONSOLE</small></span></a>
+    <div class="top-actions"><span class="status-dot"></span><span id="topStatus">System ready</span><button id="logoutBtn" class="ghost hidden">Log out</button></div>
+  </header>
+
+  <main class="shell">
+    <section id="authView" class="auth-layout">
+      <div class="hero">
+        <div class="eyebrow"><span class="pulse"></span> YOUR SERVER. YOUR BOT.</div>
+        <h1>Stay online.<br><span>Play smarter.</span></h1>
+        <p>Configure a Minecraft companion, connect it to your server, and manage it from one clean control panel.</p>
+        <div class="feature-list">
+          <div><i>✦</i><span><b>Java & Bedrock</b><small>Choose your server edition</small></span></div>
+          <div><i>⌁</i><span><b>Smart movement</b><small>Configurable anti-idle movement</small></span></div>
+          <div><i>◈</i><span><b>Private console</b><small>Your configurations stay behind login</small></span></div>
+        </div>
+      </div>
+      <div class="panel auth-panel">
+        <div class="panel-head"><div><span class="eyebrow">WELCOME TO RAZENBOTS</span><h2 id="authTitle">Sign in</h2></div><div class="mini-logo">RZ</div></div>
+        <div class="tabs"><button class="tab active" data-auth="login">Login</button><button class="tab" data-auth="register">Create account</button></div>
+        <form id="authForm">
+          <label>Username<input name="username" id="username" autocomplete="username" minlength="3" maxlength="32" required placeholder="Your username"></label>
+          <label id="emailLabel" class="hidden">Email <span class="optional">OPTIONAL</span><input name="email" id="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+          <label>Password<input name="password" id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></label>
+          <button class="primary full" type="submit" id="authSubmit">Sign in <span>↗</span></button>
+          <p class="form-note">Use a unique password. This site never needs your Minecraft account password.</p>
+          <div id="authMessage" class="message" role="status"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="appView" class="hidden">
+      <div class="welcome-row"><div><div class="eyebrow">CONTROL CENTER / <span id="editionLabel">MINECRAFT</span></div><h1>Bot <span>dashboard</span></h1><p>Configure one bot for each server you manage.</p></div><div class="user-chip"><span class="avatar">R</span><span id="userLabel">Player</span></div></div>
+      <div class="dashboard-grid">
+        <section class="panel config-panel">
+          <div class="panel-head"><div><span class="eyebrow">CONNECTION SETUP</span><h2>Configure your bot</h2></div><span class="tag">1 BOT / SERVER</span></div>
+          <form id="botForm" class="form-grid">
+            <label class="wide">Server IP / Host<input id="host" required maxlength="253" placeholder="play.example.net"></label>
+            <label>Port<input id="port" type="number" min="1" max="65535" required placeholder="25565" value="25565"></label>
+            <label>Edition<select id="edition"><option value="java">Java Edition</option><option value="bedrock">Bedrock Edition</option></select></label>
+            <label class="wide">Minecraft version<select id="version" required><option value="">Loading supported versions…</option></select><small class="hint">The list is fetched from the installed protocol libraries.</small></label>
+            <label class="wide">Bot name<input id="botName" required minlength="3" maxlength="16" pattern="[A-Za-z0-9_]+" placeholder="RazenGuest"><small class="hint">Offline/cracked mode works only on servers that allow it.</small></label>
+            <div class="wide command-box">
+              <div class="switch-row"><div><b>First-join command</b><small>Optional server registration/login command</small></div><label class="switch"><input id="commandEnabled" type="checkbox"><span></span></label></div>
+              <div id="commandFields" class="hidden command-fields"><label>Command after joining<input id="joinCommand" maxlength="160" placeholder="/register your-password your-password"></label><small class="warning">Only use this on servers you own or are authorized to access. Do not enter a real account password.</small></div>
+            </div>
+            <div class="wide command-box">
+              <div class="switch-row"><div><b>Smart Anti-AFK</b><small>Randomized movement with short idle intervals</small></div><label class="switch"><input id="antiAfk" type="checkbox" checked><span></span></label></div>
+              <div class="hint">Movement may be blocked by server rules or anti-cheat. Use only where permitted.</div>
+            </div>
+            <button class="primary wide" type="submit" id="startBtn">▶ &nbsp; Start bot</button>
+            <div id="botMessage" class="message wide" role="status"></div>
+          </form>
+        </section>
+        <aside class="side-stack">
+          <section class="panel live-panel"><div class="panel-head"><div><span class="eyebrow">LIVE STATUS</span><h2>Connection</h2></div><span id="statePill" class="state-pill idle">OFFLINE</span></div><div class="bot-orb"><div class="orb-inner">R</div></div><h3 id="liveBotName">No bot running</h3><p id="liveAddress">Add your server details to get started.</p><div class="stats"><div><small>EDITION</small><b id="liveEdition">—</b></div><div><small>VERSION</small><b id="liveVersion">—</b></div></div><button id="stopBtn" class="danger full" disabled>■ &nbsp; Stop bot</button></section>
+          <section class="panel logs-panel"><div class="panel-head"><div><span class="eyebrow">ACTIVITY</span><h2>Console logs</h2></div><button id="clearLogs" class="ghost small">Clear</button></div><div id="logs" class="logs"><div class="log-line muted">[system] Ready for configuration.</div></div></section>
+        </aside>
+      </div>
+      <p class="footer-note">Razenbots · Minecraft server companion · Respect server rules and rate limits.</p>
+    </section>
+  </main>
+  <footer class="page-footer"><span>© 2026 Razenbots</span><span>BUILT FOR BLOCK WORLDS <b>◆</b></span></footer>
+</body>
+</html>
